@@ -1,45 +1,33 @@
-<template>
-  <div>
-    <h1>Settings</h1>
-
-    <label>
-      Username:
-      <input v-model="username" />
-    </label>
-
-    <label>
-      Background Color:
-      <select v-model="backgroundColor">
-        <option value="white">White</option>
-        <option value="blue">Blue</option>
-        <option value="red">Red</option>
-        <option value="green">Green</option>
-      </select>
-    </label>
-
-    <button @click="applySettings">Apply</button>
+AppPrivacy<template>
+  <div class="component-container">
+    <img src="@/assets/logo.png" alt="Logo" class="component-logo"/>
+    <h1>AppSettings</h1>
   </div>
 </template>
 
 <script>
 export default {
+  name: "AppSettings.vue",
   data() {
     return {
-      username: '',
-      backgroundColor: 'white'
-    };
-  },
-  methods: {
-    applySettings() {
-      this.$emit('update-settings', {
-        username: this.username,
-        backgroundColor: this.backgroundColor
-      });
+      activeComponent: null,  // This will store the name of the active component
+      // ... your existing data ...
     }
   }
-};
+
+}
 </script>
 
 <style scoped>
-/* Add your styles here */
+.component-container {
+  display: flex;
+  align-items: center; /* This vertically centers the icon with the text */
+}
+.component-logo {
+  /* Add any styling you want for your logo here */
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+
+}
 </style>
