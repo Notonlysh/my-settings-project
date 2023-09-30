@@ -21,7 +21,7 @@
             <a href="#" class="dropdown-item">
               <img src="@/assets/logo.png" alt="Logo" class="component-logo" />
               Sign Out
-            </a>啥s
+            </a>
             <!-- Add more options as necessary -->
           </div>
         </div>
