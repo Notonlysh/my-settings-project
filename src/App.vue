@@ -4,22 +4,24 @@
       <div class="child float-left"><img src="@/assets/logo.png" alt="Logo" class="component-logo" /></div>
       <div class="child float-right">
         <div class="timetable">
-          <div class="weather-data">{{ weather ? weather : 'Loading...' }}</div>
+          <img v-if="weatherIcon" :src="'http://openweathermap.org/img/w/' + weatherIcon + '.png'" alt="Weather Icon"
+            class="weather-icon">
+          <div v-else>{{ weather ? weather : 'Loading...' }}</div>
           <span class="clock">{{ currentTime }}</span>
         </div>
         <div class="User logo">
-          <img src="@/assets/logo2.png" alt="Logo 2" class="logo2" @click="toggleDropdown" />
+          <el-button type="primary" icon="el-icon-user-solid" @click="toggleDropdown"></el-button>
           <div v-if="showDropdown" class="dropdown-menu">
             <a href="#" class="dropdown-item">
-              <img src="@/assets/logo.png" alt="Logo" class="component-logo" />
+              <i class="el-icon-user"></i>
               Personal Profile
             </a>
             <a href="#" class="dropdown-item">
-              <img src="@/assets/logo.png" alt="Logo" class="component-logo" />
+              <i class="el-icon-location"></i>
               Location
             </a>
             <a href="#" class="dropdown-item">
-              <img src="@/assets/logo.png" alt="Logo" class="component-logo" />
+              <i class="el-icon-switch-button"></i>
               Sign Out
             </a>
             <!-- Add more options as necessary -->
@@ -72,6 +74,7 @@ export default {
   },
   data() {
     return {
+      weatherIcon: null,
       showDropdown: false,
       weather: null,
       leftComponents: [
@@ -117,7 +120,6 @@ export default {
     async fetchWeather() {
       const apiKey = 'f2923985be31d9d2808a1c75979baa78';
       const location = 'Sydney,AU';
-
       try {
         const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}`);
 
@@ -126,8 +128,9 @@ export default {
         }
 
         const data = await response.json();
-        if (data && data.weather && data.weather[0] && data.weather[0].description) {
+        if (data && data.weather && data.weather[0]) {
           this.weather = data.weather[0].description;  // Fetch the main weather description
+          this.weatherIcon = data.weather[0].icon; // Fetch the icon code
         } else {
           console.error('Unexpected API response:', data);
         }
@@ -204,7 +207,6 @@ export default {
 
 .timetable,
 .User.logo {
-  position: absolute;
   top: 0;
   height: 100%;
   width: 500px;
@@ -212,7 +214,6 @@ export default {
 }
 
 .timetable {
-  position: absolute;
   top: 0;
   height: 100%;
   width: auto;
@@ -221,18 +222,6 @@ export default {
   align-items: center;
   justify-content: space-between;
   /* Add this for spacing between items */
-}
-
-.User.logo {
-  right: 0;
-}
-
-.logo1,
-.logo2 {
-  display: block;
-  max-width: 100%;
-  height: 100%;
-  /* take full height of the parent .timetable or .User.logo */
 }
 
 .logo1,
@@ -306,4 +295,40 @@ button.active {
 button:hover {
   background-color: #e0e0e0;
 }
+/* For the el-icon-user-solid icon */
+.el-icon-user-solid {
+  font-size: 500px;
+}
+
+/* For the clock */
+.clock {
+  font-size: 50px;
+  margin-left: 10px;
+  white-space: nowrap;
+}
+
+/* For the weather icon */
+.weather-icon {
+  height: 50px;
+  width: 50px;
+}
+.timetable {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+/* Set the icon's font-size to fill the height of its container */
+.float-right {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+}
+.timetable,
+.User.logo {
+    height: 100%;
+    width: 500px;
+}
+
+
 </style>
